@@ -22,7 +22,7 @@ This package is compliant with [PSR-1], [PSR-2], [PSR-4], [PSR-7], [PSR-11] and 
 Via Composer
 
 ``` bash
-$ composer require league/route
+$ composer require delboy1978uk/router
 ```
 
 ## Requirements
