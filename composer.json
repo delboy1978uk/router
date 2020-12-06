@@ -41,7 +41,7 @@
         "phpstan/phpstan-phpunit": "^0.10.0"
     },
     "replace": {
-        "league/route": "~1.0",
+        "league/route": "~1.0"
     },
     "autoload": {
         "psr-4": {
