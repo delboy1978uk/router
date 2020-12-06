@@ -143,18 +143,23 @@ class JsonStrategy extends AbstractStrategy implements ContainerAwareInterface
                     return $requestHandler->handle($request);
                 } catch (Throwable $exception) {
                     $response = $this->response;
+                    $code = 500;
 
                     if ($exception instanceof HttpException) {
                         return $exception->buildJsonResponse($response);
                     }
 
+                    if ($exception->getCode() > 399 && $exception->getCode() < 600) {
+                        $code = $exception->getCode();
+                    }
+
                     $response->getBody()->write(json_encode([
-                        'status_code'   => 500,
+                        'status_code'   => $code,
                         'reason_phrase' => $exception->getMessage()
                     ]));
 
                     $response = $response->withAddedHeader('content-type', 'application/json');
-                    return $response->withStatus(500, strtok($exception->getMessage(), "\n"));
+                    return $response->withStatus($code, strtok($exception->getMessage(), "\n"));
                 }
             }
         };
