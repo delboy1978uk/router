@@ -1,9 +1,9 @@
 {
     "name": "delboy1978uk/router",
-    "description": "Fast routing and dispatch component including PSR-15 middleware, built on top of FastRoute.",
+    "description": "Fast routing and dispatch component including PSR-15 middleware, fork of league/route",
     "keywords": [
-        "league",
-        "route",
+        "bone",
+        "boneframework",
         "router",
         "dispatcher",
         "psr-7",
@@ -11,13 +11,18 @@
         "psr-15",
         "psr15"
     ],
-    "homepage": "https://github.com/thephpleague/route",
+    "homepage": "https://github.com/delboy1978uk/router",
     "license": "MIT",
     "authors": [
         {
             "name": "Phil Bennett",
             "email": "philipobenito@gmail.com",
             "role": "Developer"
+        },
+        {
+            "name": "Derek Stephen McLean",
+            "email": "delboy1978uk@gmail.com",
+            "role": "Forker"
         }
     ],
     "require": {
@@ -36,8 +41,7 @@
         "phpstan/phpstan-phpunit": "^0.10.0"
     },
     "replace": {
-        "orno/route": "~1.0",
-        "orno/http": "~1.0"
+        "league/route": "~1.0",
     },
     "autoload": {
         "psr-4": {
@@ -49,14 +53,6 @@
             "League\\Route\\": "tests"
         },
         "files": ["tests/Fixture/function.php"]
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-4.x": "4.x-dev",
-            "dev-3.x": "3.x-dev",
-            "dev-2.x": "2.x-dev",
-            "dev-1.x": "1.x-dev"
-        }
     },
     "scripts": {
         "analyze": "phpstan analyse -l 4 --no-progress src"
