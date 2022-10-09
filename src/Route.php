@@ -113,7 +113,7 @@ class Route implements
      *
      * @return object
      */
-    protected function resolveClass(?ContainerInterface $container = null, string $class)
+    protected function resolveClass(?ContainerInterface $container = null, string $class = '')
     {
         if ($container instanceof ContainerInterface && $container->has($class)) {
             return $container->get($class);
