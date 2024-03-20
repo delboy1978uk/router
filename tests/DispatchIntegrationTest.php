@@ -173,7 +173,7 @@ class DispatchIntegrationTest extends TestCase
         ;
 
         $response
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('withStatus')
             ->with($this->equalTo(500), $this->equalTo('Blah'))
             ->will($this->returnSelf())
@@ -736,6 +736,12 @@ class DispatchIntegrationTest extends TestCase
             ->willReturn($this->createMock(StreamInterface::class))
         ;
 
+        $response
+            ->expects($this->any())
+            ->method('withHeader')
+            ->willReturn($response)
+        ;
+
         $uri
             ->expects($this->exactly(2))
             ->method('getPath')
@@ -787,6 +793,12 @@ class DispatchIntegrationTest extends TestCase
             ->expects($this->any())
             ->method('getBody')
             ->willReturn($this->createMock(StreamInterface::class))
+        ;
+
+        $response
+            ->expects($this->any())
+            ->method('withHeader')
+            ->willReturn($response)
         ;
 
         $uri

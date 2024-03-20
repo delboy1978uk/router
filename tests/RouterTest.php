@@ -3,6 +3,7 @@
 namespace League\Route;
 
 use InvalidArgumentException;
+use PHPStan\BetterReflection\Reflection\Adapter\ReflectionClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface, UriInterface};
 
@@ -89,8 +90,9 @@ class RouterTest extends TestCase
     {
         $router = new Router;
         $router->addPatternMatcher('mockMatcher', '[a-zA-Z]');
-        $matchers = $this->getObjectAttribute($router, 'patternMatchers');
-
+        $mirror = new \ReflectionClass($router);
+        $property = $mirror->getProperty('patternMatchers');
+        $matchers = $property->getValue($router);
         $this->assertArrayHasKey('/{(.+?):mockMatcher}/', $matchers);
         $this->assertEquals('{$1:[a-zA-Z]}', $matchers['/{(.+?):mockMatcher}/']);
     }
