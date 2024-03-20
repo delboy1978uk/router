@@ -48,10 +48,4 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       - name: Run test suite with coverage
-        run: XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
-
-      - name: Download Scrutinizer ocular.phar
-        run: composer require scrutinizer/ocular -W
-
-      - name: Upload coverage
-        run: vendor/bin/ocular code-coverage:upload --format=php-clover tests/_output/coverage.xml
+        run: vendor/bin/phpunit
