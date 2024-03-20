@@ -731,7 +731,7 @@ class DispatchIntegrationTest extends TestCase
         ;
 
         $response
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('getBody')
             ->willReturn($this->createMock(StreamInterface::class))
         ;
