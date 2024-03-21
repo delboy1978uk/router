@@ -159,6 +159,7 @@ class JsonStrategy extends AbstractStrategy implements ContainerAwareInterface
                     ]));
 
                     $response = $response->withAddedHeader('content-type', 'application/json');
+
                     return $response->withStatus($code, strtok($exception->getMessage(), "\n"));
                 }
             }
