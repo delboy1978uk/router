@@ -14,26 +14,14 @@ class JsonStrategy extends AbstractStrategy implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
 
-    /**
-     * @var ResponseFactoryInterface
-     */
-    protected $responseFactory;
+    protected ResponseFactoryInterface $responseFactory;
 
-    /**
-     * Construct.
-     *
-     * @param ResponseFactoryInterface $responseFactory
-     */
     public function __construct(ResponseFactoryInterface $responseFactory)
     {
         $this->responseFactory = $responseFactory;
-
         $this->addDefaultResponseHeader('content-type', 'application/json');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function invokeRouteCallable(Route $route, ServerRequestInterface $request): ResponseInterface
     {
         $controller = $route->getCallable($this->getContainer());
@@ -50,15 +38,6 @@ class JsonStrategy extends AbstractStrategy implements ContainerAwareInterface
         return $response;
     }
 
-    /**
-     * Check if the response can be converted to JSON
-     *
-     * Arrays can always be converted, objects can be converted if they're not a response already
-     *
-     * @param mixed $response
-     *
-     * @return bool
-     */
     protected function isJsonEncodable($response): bool
     {
         if ($response instanceof ResponseInterface) {
@@ -68,29 +47,16 @@ class JsonStrategy extends AbstractStrategy implements ContainerAwareInterface
         return (is_array($response) || is_object($response));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNotFoundDecorator(NotFoundException $exception): MiddlewareInterface
     {
         return $this->buildJsonResponseMiddleware($exception);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getMethodNotAllowedDecorator(MethodNotAllowedException $exception): MiddlewareInterface
     {
         return $this->buildJsonResponseMiddleware($exception);
     }
 
-    /**
-     * Return a middleware the creates a JSON response from an HTTP exception
-     *
-     * @param HttpException $exception
-     *
-     * @return MiddlewareInterface
-     */
     protected function buildJsonResponseMiddleware(HttpException $exception): MiddlewareInterface
     {
         return new class($this->responseFactory->createResponse(), $exception) implements MiddlewareInterface
@@ -113,17 +79,11 @@ class JsonStrategy extends AbstractStrategy implements ContainerAwareInterface
         };
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getExceptionHandler(): MiddlewareInterface
     {
         return $this->getThrowableHandler();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getThrowableHandler(): MiddlewareInterface
     {
         return new class($this->responseFactory->createResponse()) implements MiddlewareInterface
@@ -142,6 +102,8 @@ class JsonStrategy extends AbstractStrategy implements ContainerAwareInterface
                 try {
                     return $requestHandler->handle($request);
                 } catch (Throwable $exception) {
+                    error_log($exception->getMessage());
+                    error_log($exception->getTraceAsString());
                     $response = $this->response;
                     $code = 500;
 
